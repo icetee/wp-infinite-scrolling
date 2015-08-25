@@ -41,14 +41,16 @@ function wpifs_add_scripts() {
       'loading'    => wpifs_option( 'loading_html' )
     )
   );
-  wp_enqueue_script( 'jquery.sifs' );
-  wp_enqueue_script( 'wpifs' );
+  if ( is_archive() ) {
+      wp_enqueue_script( 'jquery.sifs' );
+      wp_enqueue_script( 'wpifs' );
+  }
 }
 
 if ( is_admin() ) {
   require_once( dirname(__FILE__) . '/admin.php' );
 }
 
-if ( wpifs_option('enabled') ) {
+if ( wpifs_option('enabled') )  {
   add_action( 'wp_enqueue_scripts', 'wpifs_add_scripts' );
 }

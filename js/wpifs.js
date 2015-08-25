@@ -6,7 +6,7 @@
     nextSelector:       wpifs_options['next'],
     loadingHtml:        '<div class="wpifs-loading">' + wpifs_options['loading'] + '</div>',
     show:               function(elems) {
-                          elems.fadeIn(700);
+                                elems.fadeIn(700);
                         }
   });
 })(jQuery);

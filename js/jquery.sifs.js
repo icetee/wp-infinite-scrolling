@@ -19,13 +19,13 @@
         $.sifs.scroll();
       });
     },
-    
+
     scroll: function() {
       if ($.sifs.nearBottom() && $.sifs.shouldLoadNextPage()) {
         $.sifs.loadNextPage();
       }
     },
-    
+
     nearBottom: function() {
       var scrollTop = $(window).scrollTop(),
           windowHeight = $(window).height(),
@@ -38,20 +38,28 @@
     shouldLoadNextPage: function() {
       return !!$.sifs.nextPageUrl;
     },
-    
+
     loadNextPage: function() {
       var nextPageUrl = $.sifs.nextPageUrl,
           loading = $($.sifs.loadingHtml);
       $.sifs.nextPageUrl = null;
       loading.appendTo($.sifs.containerSelector);
-      $.get(nextPageUrl, function(html) {
-        var dom = $(html),
-            posts = dom.find($.sifs.containerSelector).find($.sifs.postSelector);
-        loading.remove();
-        $.sifs.show(posts.hide().appendTo($.sifs.containerSelector));
-        $.sifs.extractNextPageUrl(dom);
-        $.sifs.scroll();
+
+      setTimeout(function(){
+          $.get(nextPageUrl, function(html) {
+            var dom = $(html),
+                posts = dom.find($.sifs.containerSelector).find($.sifs.postSelector);
+            loading.remove();
+            $.sifs.show(posts.hide().appendTo($.sifs.containerSelector));
+            $.sifs.extractNextPageUrl(dom);
+            $.sifs.scroll();
+          });
+      }, 1500);
+
+      $.get(nextPageUrl, function(html) {}).fail(function(){
+          loading.remove();
       });
+
     },
 
     extractNextPageUrl: function(dom) {
@@ -59,5 +67,5 @@
       $.sifs.nextPageUrl = pagination.find($.sifs.nextSelector).attr('href');
       pagination.remove();
     }
-  }
+ };
 })(jQuery);
